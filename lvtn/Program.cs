@@ -15,7 +15,7 @@ namespace lvtn
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new DeTai.Form1());
+            Application.Run(new FormMain());
         }
     }
 }

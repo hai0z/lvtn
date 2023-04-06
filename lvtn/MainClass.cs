@@ -4,7 +4,7 @@ using System.Text;
 using System.IO;
 using System.Windows.Forms;
 
-namespace DeTai
+namespace lvtn
 {
     public class MainClass
     {
@@ -20,8 +20,8 @@ namespace DeTai
 
         }
         //mang cac stop word phai bo di
-        public string[] stopWordArr = {    "\"",
-                                           "/",
+        public string[] stopWordArr = {    @"\",
+                                           @"/",
                                            "?",
                                            "!",
                                            "+",
@@ -30,7 +30,7 @@ namespace DeTai
                                            "@",
                                            "(",
                                            ")",
-                                           "/r/n",
+                                           @"/r/n",
                                            ":",
                                            ","
                                            };//,

@@ -10,16 +10,16 @@ using System.Windows.Forms;
 
 namespace lvtn
 {
-    public partial class Form2 : Form
+    public partial class FormMain : Form
     {
-        public Form2()
+        public FormMain()
         {
             InitializeComponent();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Form1 f1 = new Form1();
+            SVM f1 = new SVM();
             f1.MdiParent = this;
             if (panel2.Controls.Count >= 0)
             {
@@ -78,14 +78,14 @@ namespace lvtn
 
         private void button2_Click(object sender, EventArgs e)
         {
-            /*FCM fCM = new FCM();
+            FCM fCM = new FCM();
             fCM.MdiParent = this;
             if (panel2.Controls.Count >= 0)
             {
                 panel2.Controls.Clear();
                 panel2.Controls.Add(fCM);
                 fCM.Show();
-            }*/
+            }
         }
     }
 }

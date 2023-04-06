@@ -9,18 +9,22 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Runtime.InteropServices;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace DeTai
+namespace lvtn
 {
     public partial class TienXuly : Form
     {
         MainClass mc;
-        Form1 parent;
+        FCM parent;
 
-        public TienXuly(Form1 p)
+        public TienXuly(FCM p)
         {
             parent = p;
             InitializeComponent();
+            textBox_data.ReadOnly = true;
         }
 
         public void getMc(MainClass m)
@@ -30,22 +34,17 @@ namespace DeTai
 
         private string RemoveUnwantedWords(string input, string[] wordsToRemove)
         {
-            foreach (string word in wordsToRemove)
-            {
-                int pos = input.IndexOf(word);
-                while (pos >= 0)
-                {
-                    input = input.Substring(0, pos) + input.Substring(pos + word.Length);
-                    pos = input.IndexOf(word);
-                }
-            }
-            return input;
+            // Join the words to remove into a regex pattern
+            string pattern = string.Join("|", wordsToRemove.Select(w => Regex.Escape(w)));
+
+            // Remove unwanted words using regex replace
+            return Regex.Replace(input, pattern, string.Empty);
         }
 
-        public void tienXuLy(String path)
+        public void tienXuLy(string path)
         {
 
-            String sdata = System.IO.File.ReadAllText(@path);
+            string sdata = System.IO.File.ReadAllText(@path);
 
             if (sdata.Length <= 0)
             {
@@ -53,23 +52,19 @@ namespace DeTai
                 return;
             }
             int pos;
-            String sTemp;
-            String world;  //chua cac tu don cat dc
-                           //mang chua cac tu de xu ly
+            string sTemp;
+            string world;
 
-            sdata = sdata.Trim();
-            sdata = sdata.Replace(',', '.');
-            sdata = sdata.Replace('"', '.');
-            sdata = sdata.Replace(':', '.');
-            sdata = sdata.Replace('(', '.');
-            sdata = sdata.Replace(')', '.');
-            while (sdata.Contains("..")) sdata = sdata.Replace("..", ".");
-            sdata = sdata.ToLower();
+            char[] separators = { ',', '"', ':', '(', ')', '.' };
+            string[] parts = sdata.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            sdata = string.Join(".", parts).ToLower();
             mc.resetMKQ();
 
             //sArr mang chua cac phan moi tach dc
-            String[] sArr = sdata.Split('.');
+            string[] sArr = sdata.Split('.');
             //xu ly tung doan tach dc
+
+
             for (int i = 0; i < sArr.Length; i++)
             {
                 sArr[i] = RemoveUnwantedWords(sArr[i], mc.stopWordArr);
@@ -90,33 +85,32 @@ namespace DeTai
 
                 while (sTemp.Length > 0 && pos > 0)
                 {
-                    int c = 0;
-                    List<string> arrTemp = new List<string>();
-
-                    for (int j = 0; j < mc.dicAray.Length; j++)
-                    {
-                        if (mc.dicAray[j] != null && mc.dicAray[j].StartsWith(world))
-                        {
-                            arrTemp.Add(mc.dicAray[j]);
-                            c++;
-                        }
-                    }
-
+                    List<string> arrTemp = mc.dicAray.AsParallel()
+                                           .Where(x => x != null && x.StartsWith(world))
+                                           .ToList();
+                    int c = arrTemp.Count;
                     if (c > 0)
                     {
                         arrTemp.Sort((x, y) => y.Length.CompareTo(x.Length));
 
-                        foreach (string item in arrTemp)
+                        bool inserted = false;
+                        Parallel.ForEach(arrTemp, (item) =>
                         {
-                            if (sTemp.IndexOf(item) == 0)
+                            if (sTemp.StartsWith(item))
                             {
-                                mc.insertMKQ(item);
-                                sTemp = sTemp.Substring(item.Length);
-                                break;
+                                lock (mc)
+                                {
+                                    if (!inserted)
+                                    {
+                                        mc.insertMKQ(item);
+                                        sTemp = sTemp.Substring(item.Length);
+                                        inserted = true;
+                                    }
+                                }
                             }
-                        }
+                        });
 
-                        if (sTemp.StartsWith(world))
+                        if (!inserted && sTemp.StartsWith(world))
                         {
                             mc.insertMKQ(world);
                             sTemp = sTemp.Substring(world.Length);
@@ -132,29 +126,38 @@ namespace DeTai
                     pos = sTemp.IndexOf(" ");
                     if (pos >= 0) world = sTemp.Substring(0, pos);
                 }
-                Console.WriteLine("remove done" + i);
+                double percentage = (double)i / (sArr.Length - 1) * 100;
+                Console.WriteLine(percentage + " ");
+                progressBar1.Invoke(new Action(() =>
+                {
+                    progressBar1.Value = (int)percentage;
+                }));
+                label2.Invoke(new Action(() =>
+                {
+                    label2.Text = (int)percentage + "%";
+                }));
 
             }
             mc.sortMKQ();
 
-
-
         }
 
 
-        private void TextBoxAddText(String text)
+        private StringBuilder sb = new StringBuilder();
+
+        private void TextBoxAddText(string text)
         {
             if (textBox_data.InvokeRequired)
             {
-                textBox_data.BeginInvoke(
-                    new MethodInvoker(
-                        delegate () { TextBoxAddText(text); }));
+                textBox_data.BeginInvoke(new MethodInvoker(delegate () { TextBoxAddText(text); }));
             }
             else
             {
-                textBox_data.Text += text;
-                mc.note = textBox_data.Text;
-                //textBox_data.
+                sb.Append(text);
+                textBox_data.Text = sb.ToString();
+                mc.note = sb.ToString();
+                textBox_data.SelectionStart = textBox_data.Text.Length;
+                textBox_data.ScrollToCaret();
             }
         }
         private void buttonCheck(Boolean b)
@@ -170,56 +173,44 @@ namespace DeTai
                 button_exit.Enabled = b;
             }
         }
-        private async void ThreadProcAsync()
+        private void ThreadProc()
         {
             for (int i = 0; i < mc.listInputFile.Length; i++)
             {
+                label2.Invoke(new Action(() =>
+                {
+                    label3.Text = "Xử lí văn bản " + (i + 1);
+
+                }));
                 TextBoxAddText("\r\n\r\nĐang xử lý file:" + mc.listInputFile[i]);
                 tienXuLy(mc.listInputFile[i]);
                 mc.updateMKQALL(i);
-                TextBoxAddText("\r\nHệ số | Lượng giá | Từ");
+                TextBoxAddText("\r\nHệ số \t| Lượng giá \t| Từ");
                 for (int j = 0; j < mc.MAX_ARRAY; j++)
                 {
-                    TextBoxAddText("\r\n" + mc.MKQ[j].t + " " + mc.arrMain[i, j] + " " + mc.MKQ[j].w);
+                    TextBoxAddText("\r\n" + mc.MKQ[j].t + "\t  " + mc.arrMain[i, j] + "\t\t" + mc.MKQ[j].w);
                 }
+
             }
 
             TextBoxAddText("\r\nTiền xử lý kết thúc!");
             Application.UseWaitCursor = false;
             buttonCheck(true);
+
         }
 
         // Gọi hàm ThreadProcAsync() bằng cách sử dụng Task.Run()
         private void RunThreadProcAsync()
         {
-            Task.Run(() => ThreadProcAsync());
+            Task.Run(() => ThreadProc());
         }
-        /* private void ThreadProc()
-         {
 
-             for (int i = 0; i < mc.listInputFile.Length; i++)
-             {
-                 TextBoxAddText("\r\n\r\nĐang xử lý file:" + mc.listInputFile[i]);
-                 //textBox_data.Text += "/r/ Đang xử lý file:" + i;
-                 tienXuLy(mc.listInputFile[i]);
-                 mc.updateMKQALL(i);
-                 TextBoxAddText("\r\nHệ số | Lượng giá | Từ");
-                 //tu va trong so
-                 for (int j = 0; j < mc.MAX_ARRAY; j++)
-                 {
-                     TextBoxAddText("\r\n" + mc.MKQ[j].t + " " + mc.arrMain[i, j] + " " + mc.MKQ[j].w);
-                 }
-             }
-
-             TextBoxAddText("\r\nTiền xử lý kết thúc!");
-             Application.UseWaitCursor = false;
-             buttonCheck(true);
-             //}
-         }*/
-        //xu ly van ban dau vao
         private void button1_Click(object sender, EventArgs e)
         {
+
             if (textBox_data.Text.Length <= 0) return;
+            button_exit.Enabled = false;
+            button1.Enabled = false;
             //public Node[] MKQ;  
             Application.UseWaitCursor = true;
             TextBoxAddText("\r\n---------------------\r\nBắt đầu xử lý file!");
@@ -229,12 +220,11 @@ namespace DeTai
 
         private void button2_Click(object sender, EventArgs e)
         {
-            //String path = textBox1.Text.Trim();
+            //string path = textBox1.Text.Trim();
 
-            String path = System.IO.Directory.GetCurrentDirectory();
+            /*string path = System.IO.Directory.GetCurrentDirectory();
             path += "\\" + textBox1.Text.Trim();
             button_exit.Enabled = false;
-            //Console.WriteLine("cwd is '{0}'", cwd);
 
             if (path.Length <= 0) return;
             if (Directory.Exists(path) != true)
@@ -246,7 +236,7 @@ namespace DeTai
             FileInfo[] rgFiles = di.GetFiles("*.txt");
             textBox_data.Text = "Các văn bản đầu vào:\r\n";
 
-            String name = "";
+            string name = "";
             foreach (FileInfo fi in rgFiles)
             {
                 textBox_data.Text += "\r\n" + fi.Name;
@@ -254,13 +244,30 @@ namespace DeTai
                 //Console.Write(fi.Name );              
             }
             name = name.Substring(0, name.Length - 1);
-            mc.listInputFile = name.Split('|');
+            mc.listInputFile = name.Split('|');*/
+            FolderBrowserDialog folderBrowserDialog1 = new FolderBrowserDialog();
+            DialogResult result = folderBrowserDialog1.ShowDialog();
+            if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog1.SelectedPath))
+            {
+                // Lấy đường dẫn được chọn
+                string path = folderBrowserDialog1.SelectedPath;
+
+                // Thực hiện các thao tác lưu đường dẫn vào đây
+                // Ví dụ: hiển thị đường dẫn trong textbox
+                textBox1.Text = path;
+                DirectoryInfo directory = new DirectoryInfo(path);
+                FileInfo[] files = directory.GetFiles();
+                List<string> allFile = new List<string>();
+                foreach (FileInfo file in files)
+                {
+                    allFile.Add(file.FullName);
+                    TextBoxAddText(file.Name + "\r");
+                }
+                mc.listInputFile = allFile.ToArray();
+            }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
 
-        }
 
         private void button_exit_Click(object sender, EventArgs e)
         {

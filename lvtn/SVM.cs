@@ -27,21 +27,23 @@ using RestSharp;
 using static System.Net.Mime.MediaTypeNames;
 using Newtonsoft.Json.Linq;
 using Accord.Math;
+using Accord.Statistics;
 
 namespace lvtn
 {
 
-    public partial class Form1 : Form
+    public partial class SVM : Form
     {
         private List<FileContent> fileContents = new List<FileContent>();
 
-        public Form1()
+        [Obsolete]
+        public SVM()
         {
 
             InitializeComponent();
             richTextBox2.ReadOnly = true;
         }
-        private HashSet<string> GetStopword()
+        public HashSet<string> GetStopword()
         {
             var data = File.ReadAllText("./stopwords.txt");
             var lines = data.Split('\n', (char)StringSplitOptions.RemoveEmptyEntries);
@@ -227,14 +229,12 @@ namespace lvtn
                 case 0:
                     return "Thể thao";
                 case 1:
-                    return "Giáo dục";
+                    return "Văn hoá";
                 case 2:
                     return "Kinh doanh";
                 case 3:
                     return "Pháp luật";
-                case 4:
-                    return "Sức khoẻ";
-                default: return "Chưa xác định";
+                default: return "Văn hoá";
             }
         }
         private void button2_Click(object sender, EventArgs e)
@@ -243,140 +243,14 @@ namespace lvtn
             var loadedModel = Serializer.Load<MulticlassSupportVectorMachine<Linear>>("MySVMModel.bin");
             var dictionary = LoadDictionary("all");
             string document = TextPreProcessor(richTextBox1.Text);
-            document = Tokenizer(document);
             document = RemoveStopwords(document);
             double[] featureVector = BagOfWords(document, dictionary);
             int predicted = loadedModel.Decide(featureVector);
-
             MessageBox.Show("Đã phân loại xong", "Thông báo");
             txtKq.Text = DecodedLabel(predicted);
 
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            ABc();
-        }
-        public float layToaDo(String world)
-        {
-            int t = 0;
-            int c = 0;
-            string[] dic1 = LoadDictionary("thethao");
-            string[] dic2 = LoadDictionary("giaoduc");
-            string[] dic3 = LoadDictionary("kinhdoanh");
-            string[] dic4 = LoadDictionary("phapluat");
-            string[] dic5 = LoadDictionary("suckhoe");
-            if (dic1.Contains(world))
-            {
-                c++;
-                t += 1;
-            }
-            if (dic2.Contains(world))
-            {
-                c++;
-                t += 2;
-            }
-            if (dic3.Contains(world))
-            {
-                c++;
-                t += 3;
-            }
-            if (dic4.Contains(world))
-            {
-                c++;
-                t += 4;
-            }
-            if (dic5.Contains(world))
-            {
-                c++;
-                t += 5;
-            }
-            if (c > 0) return (float)t / (float)c;
-            else return 0;
-        }
-        private string[] Top5Word()
-        {
-            // Tách các từ trong văn bản và đưa vào một mảng các từ
-            System.Windows.Forms.Application.UseWaitCursor = true;
-            string document = TextPreProcessor(richTextBox1.Text);
-            document = Tokenizer(document);
-            document = RemoveStopwords(document);
-            string[] words = document.Split(' ');
-            // Tạo một từ điển để lưu trữ tần suất xuất hiện của từ
-            Dictionary<string, int> frequencyDict = new Dictionary<string, int>();
-
-            // Đếm số lần xuất hiện của từ và lưu vào từ điển
-            foreach (string word in words)
-            {
-                if (frequencyDict.ContainsKey(word))
-                {
-                    frequencyDict[word]++;
-                }
-                else
-                {
-                    frequencyDict[word] = 1;
-                }
-            }
-
-            // Sắp xếp các từ theo thứ tự giảm dần của tần suất xuất hiện
-            List<string> mostFrequentWords = frequencyDict.OrderByDescending(x => x.Value)
-                                                         .Select(x => x.Key)
-                                                         .Take(5)
-                                                         .ToList();
-            return mostFrequentWords.ToArray();
-        }
-        double EuclideanDistance(double[] a, int[] b)
-        {
-            double sum = 0;
-            for (int i = 0; i < a.Length; i++)
-            {
-                sum += Math.Pow(a[i] - b[i], 2);
-            }
-            return Math.Sqrt(sum);
-        }
-        private double[] ABc()
-        {
-            string[] m = Top5Word();
-
-            List<double> kq = new List<double>();
-
-            for (int i = 0; i < m.Length; i++)
-            {
-                double toaDo = layToaDo(m[i]);
-                kq.Add(toaDo);
-            }
-
-            foreach (var item in kq)
-            {
-                Console.WriteLine(item);
-            }
-            int[] array1 = Enumerable.Repeat(1, m.Length).ToArray();
-            int[] array2 = Enumerable.Repeat(2, m.Length).ToArray();
-            int[] array3 = Enumerable.Repeat(3, m.Length).ToArray();
-            int[] array4 = Enumerable.Repeat(4, m.Length).ToArray();
-            int[] array5 = Enumerable.Repeat(5, m.Length).ToArray();
-            int[][] arrays = { array1, array2, array3, array4, array5 };
-
-            double[] distances = new double[arrays.Length];
-            for (int i = 0; i < arrays.Length; i++)
-            {
-                distances[i] = EuclideanDistance(kq.ToArray(), arrays[i]);
-                Console.WriteLine(distances[i]);
-            }
-
-            double min = distances[0];
-            int label = -1;
-            for (int i = 0; i < distances.Length; i++)
-            {
-                if (distances[i] < min)
-                {
-                    min = distances[i];
-                    label = i;
-                }
-            }
-            Console.WriteLine(DecodedLabel(label));
-            return kq.ToArray();
-        }
         private void button4_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog folderBrowserDialog1 = new FolderBrowserDialog();

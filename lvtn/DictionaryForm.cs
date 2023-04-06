@@ -11,12 +11,12 @@ namespace lvtn
 {
     public partial class DictionaryForm : Form
     {
-        Form1 form1;
+        SVM form1;
         string[] dictionary;
         public DictionaryForm()
         {
             InitializeComponent();
-            form1 = new Form1();
+            form1 = new SVM();
             cbxTudien.SelectedIndex = 0;
 
         }
