@@ -10,7 +10,7 @@ namespace lvtn
     {
         public static string FILE_NAME_DIC = "Dic\\VietAnh.txt";       //duong dan tu dien
         public static string MAIN_PATH = "Dic\\";       //duong dan tu dien
-        public static string APPLICATION_NAME = "Thuc tap";               //tên de tai
+        public static string APPLICATION_NAME = "Phân loại văn bản";               //tên de tai
 
         //cau truc dung cho mang ket qua gom 1 string va trong so
         public struct Node
@@ -337,31 +337,7 @@ namespace lvtn
             float f2 = 0;
             Boolean loop = true;
 
-            /*  arrMain = new float[pt, k];
-              //gia tri gia de test
-              arrMain[0,0]= 1;
-              arrMain[0,1]= 3;
 
-              arrMain[1,0]= 1.5f;
-              arrMain[1,1]= 3.2f;
-
-              arrMain[2,0]= 1.3f;
-              arrMain[2,1]= 2.8f;
-
-              arrMain[3,0]= 3;
-              arrMain[3, 1] = 1;
-              //thiet lap gia tri ban dau cho ma tran U
-              u[0, 0] = 1;
-              u[0, 1] = 0;
-              u[0, 2] = 0;
-              u[0, 3] = 0;
-
-              u[1, 0] = 0;
-              u[1, 1] = 1;
-              u[1, 2] = 1;
-              u[1, 3] = 1;*/
-
-            //khoi tao mang bat dau u babg ham random
 
             u[0, 0] = 1;
             u[1, 1] = 1;

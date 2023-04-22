@@ -13,6 +13,8 @@ namespace lvtn
     {
         SVM form1;
         string[] dictionary;
+
+        [Obsolete]
         public DictionaryForm()
         {
             InitializeComponent();
@@ -23,8 +25,7 @@ namespace lvtn
 
         private void DictionaryForm_Load(object sender, EventArgs e)
         {
-            dictionary = form1.LoadDictionary("all");
-            lbDic.Text = ("Từ điển gốc: " + dictionary.Length + " từ");
+
 
         }
         private void AddItemsToListBox(string[] itemsToAdd)
@@ -75,30 +76,21 @@ namespace lvtn
         {
             switch (cbxTudien.SelectedIndex)
             {
+
                 case 0:
-                    dictionary = form1.LoadDictionary("all");
-                    break;
-                case 1:
                     dictionary = form1.LoadDictionary("thethao");
                     break;
-                case 2:
+                case 1:
                     dictionary = form1.LoadDictionary("kinhdoanh");
                     break;
-                case 3:
-                    dictionary = form1.LoadDictionary("giaoduc");
-                    break;
-                case 4:
-                    dictionary = form1.LoadDictionary("suckhoe");
-                    break;
-                case 5:
+                case 2:
                     dictionary = form1.LoadDictionary("phapluat");
                     break;
-                case 6:
+                case 3:
                     dictionary = form1.LoadDictionary("vanhoa");
                     break;
-
                 default:
-                    dictionary = form1.LoadDictionary("all");
+                    dictionary = form1.LoadDictionary("thethao");
                     break;
             }
         }

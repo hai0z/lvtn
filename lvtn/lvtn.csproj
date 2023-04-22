@@ -136,6 +136,12 @@
       <DependentUpon>DictionaryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FileContent.cs" />
+    <Compile Include="SoSanh.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SoSanh.Designer.cs">
+      <DependentUpon>SoSanh.cs</DependentUpon>
+    </Compile>
     <Compile Include="SVM.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -168,6 +174,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DictionaryForm.resx">
       <DependentUpon>DictionaryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SoSanh.resx">
+      <DependentUpon>SoSanh.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SVM.resx">
       <DependentUpon>SVM.cs</DependentUpon>

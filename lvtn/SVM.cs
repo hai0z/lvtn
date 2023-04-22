@@ -28,6 +28,7 @@ using static System.Net.Mime.MediaTypeNames;
 using Newtonsoft.Json.Linq;
 using Accord.Math;
 using Accord.Statistics;
+using System.Web.UI.WebControls;
 
 namespace lvtn
 {
@@ -124,11 +125,7 @@ namespace lvtn
             string[] lines = data.Split('\n');
             foreach (string line in lines)
             {
-                // tách từ trong dòng và lấy từ ở vị trí thứ 2
-                string[] words = line.Split(' '); // Tách chuỗi theo khoảng trắng
-                string firstPart = words[0];
-                // thực hiện các xử lý với từ ở đây
-                dictionary.Add(firstPart);
+                dictionary.Add(line);
             }
             return dictionary.ToArray();
         }
@@ -163,7 +160,7 @@ namespace lvtn
             var dictionary = LoadDictionary("all");
             List<double[]> input = new List<double[]>();
             List<int> labels = new List<int>();
-            string data = File.ReadAllText("./5cate.prep");
+            string data = File.ReadAllText("./4cate.prep");
             string[] lines = data.Split('\n');
             for (int i = 0; i < lines.Length; i++)
             {
@@ -188,8 +185,6 @@ namespace lvtn
             Console.WriteLine("end learn");
             Serializer.Save(machine, "MySVMModel.bin");
             MessageBox.Show("Đã huấn luyện xong mô hình SVM", "Thông báo");
-
-
         }
         public string Tokenizer(string text)
         {
@@ -209,16 +204,15 @@ namespace lvtn
         {
             switch (label)
             {
-                case "__label__thể_thao":
-                    return 0;
-                case "__label__giáo_dục":
-                    return 1;
                 case "__label__kinh_doanh":
-                    return 2;
+                    return 0;
                 case "__label__pháp_luật":
+                    return 1;
+                case "__label__thể_thao":
+                    return 2;
+                case "__label__văn_hoá":
                     return 3;
-                case "__label__sức_khỏe":
-                    return 4;
+
                 default: return -1;
             }
         }
@@ -227,14 +221,14 @@ namespace lvtn
             switch (lable)
             {
                 case 0:
-                    return "Thể thao";
-                case 1:
-                    return "Văn hoá";
-                case 2:
                     return "Kinh doanh";
-                case 3:
+                case 1:
                     return "Pháp luật";
-                default: return "Văn hoá";
+                case 2:
+                    return "Thể thao";
+                case 3:
+                    return "Văn hoá";
+                default: return "Chưa xác định";
             }
         }
         private void button2_Click(object sender, EventArgs e)
@@ -246,6 +240,13 @@ namespace lvtn
             document = RemoveStopwords(document);
             double[] featureVector = BagOfWords(document, dictionary);
             int predicted = loadedModel.Decide(featureVector);
+
+
+            double[] prob = loadedModel.Probabilities(featureVector);
+            for (int i = 0; i < prob.Length; i++)
+            {
+                Console.Write(prob[i] + "\t");
+            }
             MessageBox.Show("Đã phân loại xong", "Thông báo");
             txtKq.Text = DecodedLabel(predicted);
 
@@ -287,16 +288,37 @@ namespace lvtn
         {
             var loadedModel = Serializer.Load<MulticlassSupportVectorMachine<Linear>>("MySVMModel.bin");
             var dictionary = LoadDictionary("all");
-            richTextBox2.Text += "-----------------------------------------------------------------------------------------" + "\r";
             richTextBox2.Text += "Kết quả sau khi phân loại: " + "\r";
+            richTextBox2.Text += "\r\n-----------------SVM-----------------------------------------------------------------\r\n";
+            Program.txtSoSanh += "\r\n-----------------SVM-----------------------------------------------------------------\r\n";
             foreach (FileContent content in fileContents)
             {
                 string document = TextPreProcessor(content.Content);
                 document = RemoveStopwords(document);
                 double[] featureVector = BagOfWords(document, dictionary);
                 int predicted = loadedModel.Decide(featureVector);
-                richTextBox2.Text += content.Name + " => " + DecodedLabel(predicted) + "\r";
+
+                double[] prob = loadedModel.Probabilities(featureVector);
+                for (int i = 0; i < prob.Length; i++)
+                {
+                    richTextBox2.Text += (prob[i].ToString("N6") + "\t\t");
+                    Program.txtSoSanh += (prob[i].ToString("N6") + "\t\t");
+                }
+                richTextBox2.Text += "\n";
+                Program.txtSoSanh += "\n";
             }
+            richTextBox2.Text += "\n";
+            for (int i = 0; i < fileContents.Count; i++)
+            {
+                string document = TextPreProcessor(fileContents[i].Content);
+                document = RemoveStopwords(document);
+                double[] featureVector = BagOfWords(document, dictionary);
+                int predicted = loadedModel.Decide(featureVector);
+                richTextBox2.Text += "Văn bản " + (i + 1) + ": thuộc loại " + DecodedLabel(predicted) + "\r";
+                Program.txtSoSanh += "Văn bản " + (i + 1) + ": thuộc loại " + DecodedLabel(predicted) + "\r";
+            }
+            richTextBox2.Text += "\n";
+            Program.txtSoSanh += "\n";
             fileContents.Clear();
             MessageBox.Show("Đã phân loại xong", "Thông báo");
         }

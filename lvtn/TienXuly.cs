@@ -188,7 +188,7 @@ namespace lvtn
                 TextBoxAddText("\r\nHệ số \t| Lượng giá \t| Từ");
                 for (int j = 0; j < mc.MAX_ARRAY; j++)
                 {
-                    TextBoxAddText("\r\n" + mc.MKQ[j].t + "\t  " + mc.arrMain[i, j] + "\t\t" + mc.MKQ[j].w);
+                    TextBoxAddText("\r\n" + mc.MKQ[j].t + "\t\t  " + mc.arrMain[i, j] + "\t\t\t" + mc.MKQ[j].w);
                 }
 
             }
@@ -220,31 +220,7 @@ namespace lvtn
 
         private void button2_Click(object sender, EventArgs e)
         {
-            //string path = textBox1.Text.Trim();
 
-            /*string path = System.IO.Directory.GetCurrentDirectory();
-            path += "\\" + textBox1.Text.Trim();
-            button_exit.Enabled = false;
-
-            if (path.Length <= 0) return;
-            if (Directory.Exists(path) != true)
-            {
-                MessageBox.Show("Đường dẫn không đúng!");
-                return;
-            }
-            DirectoryInfo di = new DirectoryInfo(path);
-            FileInfo[] rgFiles = di.GetFiles("*.txt");
-            textBox_data.Text = "Các văn bản đầu vào:\r\n";
-
-            string name = "";
-            foreach (FileInfo fi in rgFiles)
-            {
-                textBox_data.Text += "\r\n" + fi.Name;
-                name += path + "\\" + fi.Name + "|";
-                //Console.Write(fi.Name );              
-            }
-            name = name.Substring(0, name.Length - 1);
-            mc.listInputFile = name.Split('|');*/
             FolderBrowserDialog folderBrowserDialog1 = new FolderBrowserDialog();
             DialogResult result = folderBrowserDialog1.ShowDialog();
             if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog1.SelectedPath))

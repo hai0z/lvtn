@@ -54,7 +54,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabControl1.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabControl1.Location = new System.Drawing.Point(-2, 24);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -81,26 +81,27 @@
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(30, 69);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(299, 18);
+            this.label4.Size = new System.Drawing.Size(352, 18);
             this.label4.TabIndex = 9;
             this.label4.Text = "(Nhâp đoạn văn bản cần tiến hành phân loại)";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(824, 224);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(138, 18);
+            this.label3.Size = new System.Drawing.Size(144, 18);
             this.label3.TabIndex = 8;
             this.label3.Text = "Kết quả phân loại";
             // 
             // txtKq
             // 
             this.txtKq.Enabled = false;
-            this.txtKq.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtKq.Font = new System.Drawing.Font("Consolas", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtKq.Location = new System.Drawing.Point(827, 255);
             this.txtKq.Multiline = true;
             this.txtKq.Name = "txtKq";
@@ -111,12 +112,12 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(352, 25);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(231, 24);
+            this.label2.Size = new System.Drawing.Size(270, 22);
             this.label2.TabIndex = 6;
-            this.label2.Text = "Phân loại đoạn văn bản";
+            this.label2.Text = "Phân loại đoạn văn bản SVM";
             // 
             // richTextBox1
             // 
@@ -128,7 +129,7 @@
             // 
             // button2
             // 
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.Location = new System.Drawing.Point(827, 104);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(208, 35);
@@ -139,7 +140,7 @@
             // 
             // button1
             // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.Location = new System.Drawing.Point(827, 157);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(208, 35);
@@ -197,7 +198,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(170, 60);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(185, 18);
+            this.label5.Size = new System.Drawing.Size(216, 18);
             this.label5.TabIndex = 2;
             this.label5.Text = "Đường dẫn đến file văn bản";
             // 
@@ -219,14 +220,14 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Phân loại nhiều văn bản";
             // 
-            // Form1
+            // SVM
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1080, 720);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Form1";
+            this.Name = "SVM";
             this.Text = "Form1";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);

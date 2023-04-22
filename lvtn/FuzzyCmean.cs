@@ -69,15 +69,19 @@ namespace lvtn
 
             //cMean
             mc.FCM();
-            textBox1.Text += "\r\n-------------------------------Fuzzy Cmeans---------------------------------------------\r\n";
+            textBox1.Text += "\r\n------------------Fuzzy Cmeans-----------------------------\r\n";
+            Program.txtSoSanh += "\r\n------------------Fuzzy Cmeans-----------------------------\r\n";
             //viet noi dung ra
             for (int i = 0; i < mc.listInputFile.Length; i++)
             {
                 for (int j = 0; j < 4; j++)
                 {
                     textBox1.Text += mc.arrKq[j, i] + "\t\t";
+                    Program.txtSoSanh += mc.arrKq[j, i] + "\t\t";
                 }
                 textBox1.Text += "\r\n";
+                Program.txtSoSanh += "\r\n";
+
             }
             //ket luan
             int c;
@@ -94,10 +98,12 @@ namespace lvtn
                         max = mc.arrKq[j, i];
                     }
                 }
-                textBox1.Text += "\r\n" + "vb: " + (i + 1) + " loại " + getType(c);
+                textBox1.Text += "\r\n" + "văn bản " + (i + 1) + ": thuộc loại " + getType(c);
+                Program.txtSoSanh += "\r\n" + "văn bản " + (i + 1) + ": thuộc loại " + getType(c);
             }
             textBox1.SelectionStart = textBox1.Text.Length;
             textBox1.ScrollToCaret();
+            textBox1.Text += "\n";
 
         }
 

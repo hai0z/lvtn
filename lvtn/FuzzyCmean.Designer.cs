@@ -36,8 +36,8 @@
             // 
             // button_xuly
             // 
-            this.button_xuly.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_xuly.Location = new System.Drawing.Point(847, 91);
+            this.button_xuly.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_xuly.Location = new System.Drawing.Point(844, 104);
             this.button_xuly.Name = "button_xuly";
             this.button_xuly.Size = new System.Drawing.Size(208, 35);
             this.button_xuly.TabIndex = 2;
@@ -48,17 +48,17 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(314, 41);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(294, 25);
+            this.label1.Size = new System.Drawing.Size(262, 24);
             this.label1.TabIndex = 4;
-            this.label1.Text = "PHÂN LOẠI VĂN BẢN FCM";
+            this.label1.Text = "Phân loại văn bản FCM";
             // 
             // button_phanloai
             // 
-            this.button_phanloai.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_phanloai.Location = new System.Drawing.Point(847, 155);
+            this.button_phanloai.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_phanloai.Location = new System.Drawing.Point(844, 145);
             this.button_phanloai.Name = "button_phanloai";
             this.button_phanloai.Size = new System.Drawing.Size(208, 35);
             this.button_phanloai.TabIndex = 5;
@@ -68,7 +68,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox1.Location = new System.Drawing.Point(25, 91);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;

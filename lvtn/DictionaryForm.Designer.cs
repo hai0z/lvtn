@@ -39,21 +39,21 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(486, 37);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(83, 24);
+            this.label1.Size = new System.Drawing.Size(94, 24);
             this.label1.TabIndex = 0;
             this.label1.Text = "Từ điển";
             // 
             // listBox1
             // 
-            this.listBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listBox1.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 18;
+            this.listBox1.ItemHeight = 19;
             this.listBox1.Location = new System.Drawing.Point(13, 242);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(1055, 436);
+            this.listBox1.Size = new System.Drawing.Size(1055, 422);
             this.listBox1.TabIndex = 1;
             // 
             // lbDic
@@ -62,14 +62,13 @@
             this.lbDic.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbDic.Location = new System.Drawing.Point(12, 173);
             this.lbDic.Name = "lbDic";
-            this.lbDic.Size = new System.Drawing.Size(85, 18);
+            this.lbDic.Size = new System.Drawing.Size(0, 18);
             this.lbDic.TabIndex = 2;
-            this.lbDic.Text = "Từ điển gốc";
             this.lbDic.Click += new System.EventHandler(this.label2_Click);
             // 
             // btnLoadDic
             // 
-            this.btnLoadDic.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLoadDic.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLoadDic.Location = new System.Drawing.Point(26, 131);
             this.btnLoadDic.Name = "btnLoadDic";
             this.btnLoadDic.Size = new System.Drawing.Size(132, 35);
@@ -81,27 +80,25 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(12, 206);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(449, 18);
+            this.label2.Size = new System.Drawing.Size(477, 19);
             this.label2.TabIndex = 4;
-            this.label2.Text = "Các chủ để: Thể Thao, Giáo dục, Kinh Doanh, Sức Khoẻ, Pháp luật";
+            this.label2.Text = "Các chủ để: Thể Thao, Kinh Doanh, Pháp luật, Văn hoá";
             // 
             // cbxTudien
             // 
+            this.cbxTudien.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbxTudien.FormattingEnabled = true;
             this.cbxTudien.Items.AddRange(new object[] {
-            "Tất Cả",
             "Thể Thao",
             "Kinh doanh",
-            "Giáo dục",
-            "Sức khoẻ",
             "Pháp luật",
             "Văn hoá"});
-            this.cbxTudien.Location = new System.Drawing.Point(26, 104);
+            this.cbxTudien.Location = new System.Drawing.Point(26, 98);
             this.cbxTudien.Name = "cbxTudien";
-            this.cbxTudien.Size = new System.Drawing.Size(203, 21);
+            this.cbxTudien.Size = new System.Drawing.Size(203, 27);
             this.cbxTudien.TabIndex = 5;
             this.cbxTudien.SelectedIndexChanged += new System.EventHandler(this.cbxTudien_SelectedIndexChanged);
             // 

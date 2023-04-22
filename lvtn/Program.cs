@@ -10,6 +10,8 @@ namespace lvtn
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        ///
+        public static string txtSoSanh;
         [STAThread]
         static void Main()
         {

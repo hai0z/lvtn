@@ -87,5 +87,14 @@ namespace lvtn
                 fCM.Show();
             }
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            SoSanh ss = new SoSanh();
+
+
+            ss.ShowDialog();
+
+        }
     }
 }
